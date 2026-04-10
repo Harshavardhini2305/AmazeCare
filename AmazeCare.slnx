@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AmazeCare/AmazeCare.csproj" />
+  <Project Path="AmazeCareTest/AmazeCareTest.csproj" Id="60b675a8-d4a7-4fd8-bca4-ed6265e046fe" />
+</Solution>
