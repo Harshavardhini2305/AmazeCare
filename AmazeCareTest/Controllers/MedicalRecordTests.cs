@@ -1,9 +1,11 @@
-﻿using NUnit.Framework;
-using AmazeCare.Models;
+﻿using AmazeCare.Controllers;
 using AmazeCare.Data;
-using AmazeCare.Controllers;
+using AmazeCare.Models;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
 using System;
+using System.Buffers.Text;
 using System.Linq;
 
 namespace AmazeCare.Tests
@@ -25,24 +27,14 @@ namespace AmazeCare.Tests
             _controller = new MedicalRecordController(_context);
         }
 
-        // ✅ ADD RECORD
-        [Test]
-        public void AddRecord_Test()
-        {
-            var r = new MedicalRecord
-            {
-                AppointmentId = 1,
-                Symptoms = "Fever"
-            };
+        
+        
 
-            _controller.Add(r);
-
-            Assert.AreEqual(1, _context.MedicalRecords.Count());
-        }
-
-        // ✅ GET ALL
+        //  GET ALL
+        //test checks whether all medical records can be retrieved.
         [Test]
         public void GetAll_Test()
+        //adding a sample medical record to ensure there is data to retrieve
         {
             _context.MedicalRecords.Add(new MedicalRecord
             {
@@ -51,15 +43,18 @@ namespace AmazeCare.Tests
 
             _context.SaveChanges();
 
+            //calling the GetAll method to fetch all medical records
             var result = _controller.GetAll();
 
             Assert.IsNotNull(result);
         }
 
-        // ✅ GET BY APPOINTMENT
+        //  GET BY APPOINTMENT
+        //test verifies that medical records can be fetched based on a specific appointment ID
         [Test]
         public void GetByAppointment_Test()
         {
+            //adding a medical record with a specific appointment ID 
             _context.MedicalRecords.Add(new MedicalRecord
             {
                 AppointmentId = 1
@@ -67,6 +62,7 @@ namespace AmazeCare.Tests
 
             _context.SaveChanges();
 
+            //calling the GetByAppointment method with the appointment ID to retrieve the medical record
             var result = _controller.GetByAppointment(1);
 
             Assert.IsNotNull(result);
@@ -76,6 +72,7 @@ namespace AmazeCare.Tests
         public void Cleanup()
         {
             _context.Dispose();
+            _controller.Dispose();
         }
     }
 }

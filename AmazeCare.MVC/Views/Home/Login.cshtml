@@ -1,0 +1,181 @@
+﻿@model AmazeCare.MVC.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null; // Auth pages have their own layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - AmazeCare</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/amazecare.css" />
+</head>
+
+<body>
+    <div class="auth-page" role="main">
+        <div class="auth-card">
+
+            <!-- Logo -->
+            <div class="auth-logo">
+                <h1>
+                    <i class="fas fa-heartbeat text-danger me-2"></i>
+                    Amaze<span>Care</span>
+                </h1>
+                <p>Sign in to your account</p>
+            </div>
+
+            <!-- Error Message -->
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert-custom alert-danger-custom mb-3"
+                     role="alert" aria-live="polite">
+                    <i class="fas fa-exclamation-circle"></i>
+                    @ViewBag.Error
+                </div>
+            }
+
+            <!-- Role Tabs -->
+            <div class="auth-tabs" role="tablist" aria-label="Login Role">
+                <button class="auth-tab active" id="patientTab"
+                        onclick="setRole('Patient')"
+                        role="tab" aria-selected="true">
+                    <i class="fas fa-user me-1"></i> Patient
+                </button>
+                <button class="auth-tab" id="doctorTab"
+                        onclick="setRole('Doctor')"
+                        role="tab" aria-selected="false">
+                    <i class="fas fa-user-md me-1"></i> Doctor
+                </button>
+                <button class="auth-tab" id="adminTab"
+                        onclick="setRole('Admin')"
+                        role="tab" aria-selected="false">
+                    <i class="fas fa-cog me-1"></i> Admin
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form asp-controller="Account" asp-action="Login"
+                  method="post" novalidate class="amazecare-form">
+                @Html.AntiForgeryToken()
+
+                <!-- Hidden Role field -->
+                <input type="hidden" asp-for="Role" id="roleInput" />
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">
+                        <i class="fas fa-envelope me-1 text-primary"></i>
+                        Email Address
+                    </label>
+                    <input asp-for="Email"
+                           type="email"
+                           class="form-control"
+                           placeholder="Enter your email"
+                           autocomplete="email"
+                           required />
+                    <span asp-validation-for="Email"
+                          class="invalid-feedback d-block"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">
+                        <i class="fas fa-lock me-1 text-primary"></i>
+                        Password
+                    </label>
+                    <div style="position:relative;">
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               id="passwordInput"
+                               placeholder="Enter your password"
+                               autocomplete="current-password"
+                               required />
+                        <!-- Toggle password visibility -->
+                        <button type="button"
+                                onclick="togglePassword()"
+                                style="position:absolute;right:12px;top:50%;
+                            transform:translateY(-50%);
+                            background:none;border:none;
+                            color:var(--gray);cursor:pointer;"
+                                aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password"
+                          class="invalid-feedback d-block"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-auth mt-2">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In as <span id="roleText">Patient</span>
+                </button>
+            </form>
+
+            <!-- Register Link -->
+            <p class="text-center mt-4 mb-0"
+                   style="font-size:0.9rem;color:var(--gray);">
+                New patient?
+                <a asp-controller="Account" asp-action="Register"
+                       style="color:var(--primary);font-weight:600;">
+                    Create an account
+                </a>
+            </p>
+
+            <!-- Back to Home -->
+            <p class="text-center mt-2 mb-0">
+                <a asp-controller="Home" asp-action="Index"
+                       style="font-size:0.85rem;color:var(--gray);">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Home
+                </a>
+            </p>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ES6 Arrow function - set role when tab clicked
+        const setRole = (role) => {
+        // Update hidden input
+        document.getElementById('roleInput').value = role;
+        document.getElementById('roleText').textContent = role;
+
+        // Update active tab
+        const tabs = ['patientTab', 'doctorTab', 'adminTab'];
+        tabs.forEach(tabId => {
+        const tab = document.getElementById(tabId);
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+        });
+
+        // Set active tab
+        const activeTab = role.toLowerCase() + 'Tab';
+        document.getElementById(activeTab).classList.add('active');
+        document.getElementById(activeTab).setAttribute('aria-selected', 'true');
+        };
+
+        // Toggle password visibility
+        const togglePassword = () => {
+        const input = document.getElementById('passwordInput');
+        const icon  = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+        };
+    </script>
+</body>
+</html>

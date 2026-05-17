@@ -19,6 +19,8 @@ namespace AmazeCare.Models
         public string? Qualification { get; set; }
         public string? Designation { get; set; }
 
+        public string? Phone { get; set; }
+
         // Login
         public string? Password { get; set; }
     }

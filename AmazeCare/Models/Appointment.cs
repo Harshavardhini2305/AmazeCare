@@ -4,7 +4,7 @@
 // Used to track bookings
 
 
-
+using System.Text.Json.Serialization;
 
 namespace AmazeCare.Models
 {
@@ -22,7 +22,12 @@ namespace AmazeCare.Models
         public string VisitType { get; set; } // checkup / issue
 
         // Navigation properties
+
+        [JsonIgnore]
+
         public Patient? Patient { get; set; }
+
+        [JsonIgnore]
         public Doctor? Doctor { get; set; }
     }
 }

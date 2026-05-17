@@ -97,6 +97,9 @@ namespace AmazeCare.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Qualification")
                         .HasColumnType("nvarchar(max)");
 
@@ -152,7 +155,7 @@ namespace AmazeCare.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DOB")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")

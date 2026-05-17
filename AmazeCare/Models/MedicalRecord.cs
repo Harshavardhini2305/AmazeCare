@@ -1,4 +1,6 @@
-﻿namespace AmazeCare.Models
+﻿using System.Text.Json.Serialization;
+
+namespace AmazeCare.Models
 {
     public class MedicalRecord
     {
@@ -16,7 +18,7 @@
         public string?Diagnosis { get; set; }
        
 
-        
+        //[JsonIgnore]
         public Appointment? Appointment { get; set; }
     }
 }

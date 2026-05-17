@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="AmazeCare.API/AmazeCare.API.csproj" />
+  <Project Path="AmazeCare.MVC/AmazeCare.MVC.csproj" Id="e4a056c7-99a1-4500-9887-ed7b1b677ada" />
+  <Project Path="AmazeCare.Test/AmazeCare.Test.csproj" Id="9e65664a-5b3a-489e-a34f-f28ac61767f7" />
+</Solution>

@@ -1,10 +1,15 @@
-﻿using NUnit.Framework;
-using AmazeCare.Models;
+﻿using AmazeCare.Controllers;
 using AmazeCare.Data;
-using AmazeCare.Controllers;
+using AmazeCare.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
 using System;
+using System.Composition;
 using System.Linq;
+using System.Numerics;
+using System.Reflection.Metadata;
 
 namespace AmazeCare.Tests
 {
@@ -25,7 +30,8 @@ namespace AmazeCare.Tests
             _controller = new AdminController(_context);
         }
 
-        // ✅ LOGIN SUCCESS
+        //  LOGIN SUCCESS
+        //test verifies that admin can log in with valid credentials
         [Test]
         public void Login_Test()
         {
@@ -42,7 +48,8 @@ namespace AmazeCare.Tests
             Assert.IsNotNull(result);
         }
 
-        // ❌ LOGIN FAIL
+        //  LOGIN FAIL
+        // invalid login is handled properly
         [Test]
         public void Login_Fail_Test()
         {
@@ -51,7 +58,8 @@ namespace AmazeCare.Tests
             Assert.IsNotNull(result);
         }
 
-        // ✅ ADD DOCTOR
+        //  ADD DOCTOR
+        //test checks whether admin can successfully add a doctor.
         [Test]
         public void AddDoctor_Test()
         {
@@ -65,7 +73,8 @@ namespace AmazeCare.Tests
             Assert.AreEqual(1, _context.Doctors.Count());
         }
 
-        // ✅ UPDATE DOCTOR
+        //  UPDATE DOCTOR
+        //test verifies updating doctor details.
         [Test]
         public void UpdateDoctor_Test()
         {
@@ -90,7 +99,8 @@ namespace AmazeCare.Tests
             Assert.AreEqual("New", doc.Name);
         }
 
-        // ❌ UPDATE NOT FOUND
+        //  UPDATE NOT FOUND
+        //test checks behavior when updating a doctor that doesn’t exist
         [Test]
         public void UpdateDoctor_NotFound_Test()
         {
@@ -101,7 +111,8 @@ namespace AmazeCare.Tests
             Assert.IsNotNull(result);
         }
 
-        // ✅ DELETE DOCTOR
+        //  DELETE DOCTOR
+        //test verifies that admin can delete a doctor
         [Test]
         public void DeleteDoctor_Test()
         {
@@ -114,7 +125,8 @@ namespace AmazeCare.Tests
             Assert.AreEqual(0, _context.Doctors.Count());
         }
 
-        // ✅ VIEW ALL APPOINTMENTS
+        //  VIEW ALL APPOINTMENTS
+        //test checks whether admin can view all appointments.
         [Test]
         public void AllAppointments_Test()
         {
@@ -130,7 +142,8 @@ namespace AmazeCare.Tests
             Assert.IsNotNull(result);
         }
 
-        // ✅ REPORT
+        //  REPORT
+        //test verifies report generation functionality
         [Test]
         public void Report_Test()
         {
@@ -149,6 +162,7 @@ namespace AmazeCare.Tests
         public void Cleanup()
         {
             _context.Dispose();
+            _controller.Dispose();
         }
     }
 }
